@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+	
+	<!-- Data Source injection -->
+	<bean id="dmds" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"/>
+		<property name="username" value="sys as sysdba"/>
+		<property name="password" value="admin"/>
+	</bean>
+	
+	<!-- DAO Class CFG -->
+	<bean id="dao" class="com.ranjan.dao.CustomerDAO">
+		<constructor-arg name="ds" ref="dmds"/>
+	</bean>
+	
+	<!-- Service class -->
+	<bean id="service" class="com.ranjan.service.CustomerService">
+		<constructor-arg name="dao" ref="dao"/>
+	</bean>
+	
+	<!-- MainController -->
+	<bean id="controller" class="com.ranjan.controller.MainController">
+		<constructor-arg name="service" ref="service"/>
+	</bean>
+	
+	</beans>
